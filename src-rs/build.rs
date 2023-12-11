@@ -253,6 +253,11 @@ impl SwiftLinker {
                 arch => arch,
             };
 
+            let swift_target_triple = rust_target.swift_target_triple(
+                &self.macos_min_version,
+                self.ios_min_version.as_deref(),
+            );
+
             command
                 // Build the package (duh)
                 .args(["build"])
@@ -272,11 +277,10 @@ impl SwiftLinker {
                 .args(["-Xswiftc", "-target"])
                 .args([
                     "-Xswiftc",
-                    &rust_target.swift_target_triple(
-                        &self.macos_min_version,
-                        self.ios_min_version.as_deref(),
-                    ),
-                ]);
+                    &swift_target_triple,
+                ])
+                .args(["-Xcc", format!("--target={swift_target_triple}")])
+                .args(["-Xcxx", format!("--target={swift_target_triple}")]);
 
             if !command.status().unwrap().success() {
                 panic!("Failed to compile swift package {}", package.name);
