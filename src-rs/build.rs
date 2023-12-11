@@ -279,8 +279,8 @@ impl SwiftLinker {
                     "-Xswiftc",
                     &swift_target_triple,
                 ])
-                .args(["-Xcc", format!("--target={swift_target_triple}")])
-                .args(["-Xcxx", format!("--target={swift_target_triple}")]);
+                .args(["-Xcc", format!("--target={swift_target_triple}").as_str()])
+                .args(["-Xcxx", format!("--target={swift_target_triple}").as_str()]);
 
             if !command.status().unwrap().success() {
                 panic!("Failed to compile swift package {}", package.name);
