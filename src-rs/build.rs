@@ -245,7 +245,7 @@ impl SwiftLinker {
 
             let sdk_path = String::from_utf8_lossy(&sdk_path_output.stdout);
 
-            let mut command = Command::new("swift");
+            let mut command = Command::new("usr/bin/xcrun");
             command.current_dir(&package.path);
 
             let arch = match std::env::consts::ARCH {
@@ -259,6 +259,7 @@ impl SwiftLinker {
             );
 
             command
+                .args(["-sdk", "macosx", "swift"])
                 // Build the package (duh)
                 .args(["build"])
                 // SDK path for regular compilation (idk)
