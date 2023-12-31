@@ -245,7 +245,7 @@ impl SwiftLinker {
 
             let sdk_path = String::from_utf8_lossy(&sdk_path_output.stdout);
 
-            let mut command = Command::new("/usr/bin/xcrun");
+            let mut command = Command::new("xcrun");
             command.current_dir(&package.path);
 
             let arch = match std::env::consts::ARCH {
